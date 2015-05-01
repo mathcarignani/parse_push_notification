@@ -9,7 +9,7 @@ module ParsePushNotification
       self.parse_rest_api_key = rest_api_key
     end
 
-    def send
+    def send(&callback)
 
       uri = URI.parse("https://api.parse.com/1/push")
       http = Net::HTTP.new(uri.host, uri.port)
@@ -26,7 +26,7 @@ module ParsePushNotification
       http.use_ssl = true
       response = http.request(request,body)
 
-      puts "Sended!"
+      callback.call(response) if callback
     end
   end
 end
